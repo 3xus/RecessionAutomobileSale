@@ -43,3 +43,28 @@ plt.legend()
 plt.show()
 
 # Task 1.2
+df['Vehicle_Type'].unique()
+df_recession = df[df['Recession'] == 1]
+df_Mline = df_recession.groupby(['Year', 'Vehicle_Type'], as_index=False)['Automobile_Sales'].mean()
+df_Mline.set_index('Year', inplace = True)
+df_Mline = df_Mline.groupby(['Vehicle_Type'])['Automobile_Sales']
+plt.figure(figsize=(10,6))
+df_Mline.plot(kind = 'line')
+plt.xlabel('Year')
+plt.ylabel('Sales')
+plt.title('Sales Trend Vehicle-wise during Recession')
+plt.legend()
+plt.show()
+
+# Task 1.3. Create a visualization to compare the sales trend per vehicle type for a recession period with a non-recession period
+df.columns
+new_df = df.groupby('Recession')['Automobile_Sales'].mean().reset_index()
+new_df.head()
+
+plt.figure(figsize=(8,6))
+sns.barplot(x='Recession', y='Automobile_Sales', hue='Recession', data = new_df)
+plt.xlabel('Recssion')
+plt.ylabel('Mean Automobile Sales')
+plt.title('Average Automobile Sales during Recession and Non-Recession')
+plt.xticks(ticks=[0,1], labels=['Non-Recession', 'Recession'])
+plt.show()
